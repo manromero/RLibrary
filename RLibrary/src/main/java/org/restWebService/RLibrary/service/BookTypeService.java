@@ -47,5 +47,18 @@ public class BookTypeService {
 		List<BookTypeDto> res = bookTypeConverter.convertListEntityToListDto(entities);
 		return res;
 	}
+	
+	/**
+	 * Devuelve el tipo de un libro por su descripcion
+	 * @param description
+	 * @return
+	 */
+	public BookType findEntityByDescription(String description) {
+		BookType res = new BookType();
+		if(description!=null){
+			res = bookTypeRepository.findByDescription(description);
+		}
+		return res;
+	}
 
 }

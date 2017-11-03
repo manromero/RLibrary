@@ -14,4 +14,7 @@ public interface BookTypeRepository extends JpaRepository<BookType, Long> {
 	@Query("SELECT bt FROM BookType bt ORDER BY bt.description")
 	public List<BookType> findAllByDescriptionDesc();
 
+	@Query("SELECT bt FROM BookType bt WHERE bt.description = ?1 ")
+	public BookType findByDescription(String description);
+
 }
