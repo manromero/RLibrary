@@ -19,11 +19,6 @@ public class Application {
         return new WebMvcConfigurerAdapter() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-            	// EJEMPLO DE CORS
-//            	registry.addMapping("/filmType/findAllOrderByDescriptionAsc");
-//            	registry.addMapping("/film/findAllOrderByNameAsc");
-//            	registry.addMapping("/film/findOne/*");
-//            	registry.addMapping("/film/delete/*");
             	registry.addMapping("/book/findAllByTitleDesc");
             	registry.addMapping("/book/save");
             	registry.addMapping("/book/delete/*");
