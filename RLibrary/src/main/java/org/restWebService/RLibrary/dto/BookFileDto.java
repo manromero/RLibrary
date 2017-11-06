@@ -3,15 +3,14 @@ package org.restWebService.RLibrary.dto;
 public class BookFileDto extends Dto {
 	
 	private byte[] file;
-	private BookFileTypeDto bookFileTypeDto;
+	private Long idBook;
 	
 	public BookFileDto(){
 		super();
 	}
 	
-	public BookFileDto(byte[] file, BookFileTypeDto bookFileTypeDto){
+	public BookFileDto(byte[] file){
 		this.file = file;
-		this.bookFileTypeDto = bookFileTypeDto;
 	}
 
 	public byte[] getFile() {
@@ -22,12 +21,12 @@ public class BookFileDto extends Dto {
 		this.file = file;
 	}
 
-	public BookFileTypeDto getBookFileTypeDto() {
-		return bookFileTypeDto;
+	public Long getIdBook() {
+		return idBook;
 	}
 
-	public void setBookFileTypeDto(BookFileTypeDto bookFileTypeDto) {
-		this.bookFileTypeDto = bookFileTypeDto;
+	public void setIdBook(Long idBook) {
+		this.idBook = idBook;
 	}
 
 }

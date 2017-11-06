@@ -3,19 +3,13 @@ package org.restWebService.RLibrary.converter;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
-
+import org.restWebService.RLibrary.domain.Book;
 import org.restWebService.RLibrary.domain.BookFile;
-import org.restWebService.RLibrary.domain.BookFileType;
 import org.restWebService.RLibrary.dto.BookFileDto;
-import org.restWebService.RLibrary.dto.BookFileTypeDto;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BookFileConverter {
-	
-	@Resource
-	private BookFileTypeConverter bookFileTypeConverter; 
 	
 	public BookFile convertDtoToEntity(BookFileDto dto){
 		BookFile entity = new BookFile();
@@ -23,9 +17,10 @@ public class BookFileConverter {
 			entity.setId(dto.getId());
 			entity.setVersion(dto.getVersion());
 			entity.setFile(dto.getFile());
-			if(dto.getBookFileTypeDto()!=null){
-				BookFileType bookFileType = bookFileTypeConverter.convertDtoToEntity(dto.getBookFileTypeDto());
-				entity.setBookFileType(bookFileType);
+			if(dto.getIdBook()!=null){
+				Book bookEntity = new Book();
+				bookEntity.setId(dto.getIdBook());
+				entity.setBook(bookEntity);
 			}
 		}
 		return entity;
@@ -37,9 +32,8 @@ public class BookFileConverter {
 			dto.setId(entity.getId());
 			dto.setVersion(entity.getVersion());
 			dto.setFile(entity.getFile());
-			if(entity.getBookFileType()!=null){
-				BookFileTypeDto bookFileTypeDto = bookFileTypeConverter.convertEntityToDto(entity.getBookFileType());
-				dto.setBookFileTypeDto(bookFileTypeDto);
+			if(entity.getBook()!=null){
+				dto.setIdBook(entity.getBook().getId());
 			}
 		}
 		return dto;

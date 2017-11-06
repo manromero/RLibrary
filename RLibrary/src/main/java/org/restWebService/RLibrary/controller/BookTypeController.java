@@ -5,6 +5,8 @@ import java.util.List;
 import org.restWebService.RLibrary.dto.BookTypeDto;
 import org.restWebService.RLibrary.service.BookTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +21,16 @@ public class BookTypeController {
 	@RequestMapping(value = "/findAllByDescriptionDesc", method = RequestMethod.GET)
 	public List<BookTypeDto> findAllByDescriptionDesc(){
 		return bookTypeService.findAllByDescriptionDesc();
+	}
+	
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	public BookTypeDto save(@RequestBody BookTypeDto bookTypeDto){
+		return bookTypeService.save(bookTypeDto);
+	}
+	
+	@RequestMapping(value = "/delete/{idBookType}", method = RequestMethod.GET)
+	public BookTypeDto startFilm(@PathVariable("idBookType") Long idBookType){
+		return bookTypeService.delete(idBookType);
 	}
 	
 }

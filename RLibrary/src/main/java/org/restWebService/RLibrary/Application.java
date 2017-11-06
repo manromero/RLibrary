@@ -25,7 +25,16 @@ public class Application {
 //            	registry.addMapping("/film/findOne/*");
 //            	registry.addMapping("/film/delete/*");
             	registry.addMapping("/book/findAllByTitleDesc");
+            	registry.addMapping("/book/save");
+            	registry.addMapping("/book/delete/*");
             	registry.addMapping("/bookType/findAllByDescriptionDesc");
+            	registry.addMapping("/bookType/save");
+            	registry.addMapping("/bookType/delete/*");
+            	registry.addMapping("/bookFile/save");
+            	registry.addMapping("/bookFile/findByIdBook/*");
+            	registry.addMapping("/bookFile/delete/*");
+            	registry.addMapping("/bookUserPending/save");
+            	registry.addMapping("/bookUserReaded/save");
             }
         };
     }

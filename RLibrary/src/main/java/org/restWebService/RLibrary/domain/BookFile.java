@@ -8,15 +8,15 @@ public class BookFile extends DomainEntity {
 	
 	private byte[] file;
 	@ManyToOne
-	private BookFileType bookFileType;
+	private Book book;
 	
 	public BookFile(){
 		super();
 	}
 	
-	public BookFile(byte[] file, BookFileType bookFileType){
+	public BookFile(byte[] file, Book book){
 		this.file = file;
-		this.bookFileType = bookFileType;
+		this.book = book;
 	}
 
 	public byte[] getFile() {
@@ -27,12 +27,12 @@ public class BookFile extends DomainEntity {
 		this.file = file;
 	}
 
-	public BookFileType getBookFileType() {
-		return bookFileType;
+	public Book getBook() {
+		return book;
 	}
 
-	public void setBookFileType(BookFileType bookFileType) {
-		this.bookFileType = bookFileType;
+	public void setBook(Book book) {
+		this.book = book;
 	}
 	
 }

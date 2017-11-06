@@ -24,6 +24,15 @@ public class BookService {
 	@Autowired
 	private BookTypeService bookTypeService;
 	
+	@Autowired
+	private BookUserPendingService bookUserPendingService;
+	
+	@Autowired
+	private BookUserReadedService bookUserReadedService;
+	
+	@Autowired
+	private BookFileService bookFileService;
+	
 	@Resource
 	private BookConverter bookConverter;
 	
@@ -53,4 +62,88 @@ public class BookService {
 		return res;
 	}
 
+	/**
+	 * Guarda/Actualiza un libro en la base de datos
+	 * Antes de proceder se comprueban que todos los campos estén definidos correctamente
+	 * @param bookDto
+	 * @return
+	 */
+	public BookDto save(BookDto bookDto) {
+		BookDto res = null;
+		List<String> errores = validaBookDto(bookDto);
+		if(errores.isEmpty()){
+			Book entityToSave = bookConverter.convertDtoToEntity(bookDto);
+			Book entitySaved = bookRepository.save(entityToSave);
+			res = bookConverter.convertEntityToDto(entitySaved);
+		}else{
+			if(bookDto==null){
+				res = new BookDto();
+			}else{
+				res = bookDto;
+			}
+			res.setErrores(errores);
+		}
+		return null;
+	}
+	
+	/**
+	 * Valida que un book dto tenga los datos rellenados correctamente
+	 * @param bookDto
+	 * @return
+	 */
+	private List<String> validaBookDto(BookDto bookDto){
+		List<String> errores = new ArrayList<>();
+		if(bookDto==null){
+			errores.add("El Libro no puede ser nulo");
+		}else{
+			if(bookDto.getTitle()==null || bookDto.getTitle().trim().equals("")){
+				errores.add("Se debe indicar el título del libro");
+			}
+			if(bookDto.getAuthor()==null || bookDto.getAuthor().trim().equals("")){
+				errores.add("Se debe indicar el Autor del libro");
+			}
+			if(bookDto.getBookTypeDto()==null || bookDto.getBookTypeDto().getId()==null || bookDto.getBookTypeDto().getId().equals(0l)){
+				errores.add("Se debe indicar el Tipo del libro");
+			}
+		}
+		return errores;
+	}
+
+	/**
+	 * Devuelve los libros de un tipo determinado
+	 * @param idBookType
+	 * @return
+	 */
+	public List<Book> findByIdBookType(Long idBookType) {
+		List<Book> res = new ArrayList<>();
+		if(idBookType!=null){
+			res = bookRepository.findByIdBookType(idBookType);
+		}
+		return res;
+	}
+
+	/**
+	 * Elimina un libro y todas sus relaciones
+	 * @param idBook
+	 * @return
+	 */
+	public BookDto delete(Long idBook) {
+		BookDto res = new BookDto();
+		if(idBook!=null && !idBook.equals(0l)){
+			// Eliminar BookUserPending asociados al book
+			bookUserPendingService.deleteByIdBook(idBook);
+			// Eliminar BookUserReaded asociados al book
+			bookUserReadedService.deleteByIdBook(idBook);
+			// Eliminar BookFile asociados al book
+			bookFileService.deleteByIdBook(idBook);
+			// Eliminar el book
+			bookRepository.delete(idBook);
+		}else{
+			List<String> errores = new ArrayList<>();
+			errores.add("El Libro no puede ser nulo");
+			res.setErrores(errores);
+		}
+		return res;
+	}
+	
 }
