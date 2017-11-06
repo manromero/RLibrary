@@ -31,6 +31,17 @@ public class BookUserPendingService {
 			bookUserPendingRepository.delete(listBookUserPending);
 		}
 	}
+	
+	/**
+	 * Elimina todas los BookUserPending asociados a un id user
+	 * @param idRUser
+	 */
+	public void deleteByIdUser(Long idRUser) {
+		if(idRUser!=null && !idRUser.equals(0l)){
+			List<BookUserPending> listBookUserPending = bookUserPendingRepository.findByIdUser(idRUser);
+			bookUserPendingRepository.delete(listBookUserPending);
+		}
+	}
 
 	/**
 	 * Guarda una relacion user - book que indica que un usuario tiene pendiente de lectura un determiado libro

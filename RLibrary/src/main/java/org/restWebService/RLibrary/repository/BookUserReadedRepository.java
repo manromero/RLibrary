@@ -14,4 +14,7 @@ public interface BookUserReadedRepository extends JpaRepository<BookUserReaded, 
 	@Query("SELECT bur FROM BookUserReaded bur WHERE bur.book.id = ?1")
 	public List<BookUserReaded> findByIdBook(Long idBook);
 
+	@Query("SELECT bur FROM BookUserReaded bur WHERE bur.rUser.id = ?1")
+	public List<BookUserReaded> findByIdUser(Long idRUser);
+
 }

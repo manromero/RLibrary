@@ -14,4 +14,7 @@ public interface BookUserPendingRepository extends JpaRepository<BookUserPending
 	@Query("SELECT bup FROM BookUserPending bup WHERE bup.book.id = ?1")
 	public List<BookUserPending> findByIdBook(Long idBook);
 
+	@Query("SELECT bup FROM BookUserPending bup WHERE bup.rUser.id = ?1")
+	public List<BookUserPending> findByIdUser(Long idRUser);
+
 }

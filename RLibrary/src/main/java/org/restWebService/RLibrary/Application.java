@@ -37,6 +37,9 @@ public class Application {
             	registry.addMapping("/bookUserPending/delete/*");
             	registry.addMapping("/bookUserReaded/save");
             	registry.addMapping("/bookUserReaded/delete/*");
+            	registry.addMapping("/rUser/findAllOrderByAliasDesc");
+            	registry.addMapping("/rUser/save");
+            	registry.addMapping("/rUser/delete/*");
             }
         };
     }

@@ -31,6 +31,17 @@ public class BookUserReadedService {
 			bookUserReadedRepository.delete(listBookUserReaded);
 		}
 	}
+	
+	/**
+	 * Elimina todos los BookUserReaded asociados a un id User
+	 * @param idRUser
+	 */
+	public void deleteByIdUser(Long idRUser) {
+		if(idRUser!=null && !idRUser.equals(0l)){
+			List<BookUserReaded> listBookUserReaded = bookUserReadedRepository.findByIdUser(idRUser);
+			bookUserReadedRepository.delete(listBookUserReaded);
+		}
+	}
 
 	/**
 	 * Guarda una relacion book - user en la base de datos
