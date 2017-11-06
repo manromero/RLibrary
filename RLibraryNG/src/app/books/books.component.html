@@ -1,2 +1,44 @@
-<h1>Hola mundo</h1>
-<button class="btn btn-danger btn-block">Botón Prueba</button>
+<div class="container margint30px">
+  <div class="row">
+
+    <div class="col-md-3">
+
+      <div class="list-group">
+        <button type="button" class="list-group-item" [ngClass]="{'active': bookTypeSelected == 0 }" (click)="changeBookTypeSelected(0)"> Todos </button>
+        <button type="button" *ngFor="let bt of listBookType" class="list-group-item" [ngClass]="{'active': bookTypeSelected == bt.id }" (click)="changeBookTypeSelected(bt.id)"> {{bt.description}} </button>
+      </div>
+
+    </div>
+
+    <div class="col-md-9">
+
+      <div class="panel">
+        <div class="panel-body">
+
+          <div class="row">
+            <div class="col-md-12">
+              <input type="text" placeholder="Título" [(ngModel)]="filtroTitle" (keyup)="filterBooksByIdBookTypeAndTitle()" class="form-control width100 marginb4">
+            </div>
+          </div>
+
+          <div class="row">
+            <div *ngFor="let b of listBook" class="col-md-4 marginb4">
+              <div class="imageBorder">
+                <img *ngIf="!b.cover" width="100%" height="240px" src="../../assets/images/default.png">
+                <img *ngIf="b.cover" width="100%" height="240px" src="data:image/png;base64,{{b.cover}}">
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <h4>{{b.title}}</h4>
+                </div>
+              </div>
+            </div>
+          </div> <!-- termina row-->
+
+        </div>
+      </div>
+
+    </div>
+
+  </div><!-- termina row -->
+</div><!-- termina container-->

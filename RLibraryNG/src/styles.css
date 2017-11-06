@@ -1,1 +1,45 @@
 /* You can add global styles to this file, and also import other style files */
+.jumbotron{
+  min-height: 100vh;
+  margin-bottom: 0px;
+}
+
+.width100 {
+  width: 100%;
+}
+
+.width80 {
+  width: 80%;
+}
+
+.margint3 {
+  margin-top: 3%;
+}
+
+.margint5 {
+  margin-top: 5%;
+}
+
+.margint30px {
+  margin-top: 30px;
+}
+
+.margint20px {
+  margin-top: 20px;
+}
+
+.margint10px {
+  margin-top: 10px;
+}
+
+.marginb4 {
+  margin-bottom: 4%;
+}
+
+.textAlignCenter {
+  text-align: center;
+}
+
+.textAlignRight {
+  text-align: right;
+}
