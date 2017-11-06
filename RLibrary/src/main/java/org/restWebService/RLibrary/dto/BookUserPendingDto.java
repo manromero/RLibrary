@@ -2,33 +2,33 @@ package org.restWebService.RLibrary.dto;
 
 public class BookUserPendingDto extends Dto {
 	
-	private RUserDto rUserDto;
-	private BookDto bookDto;
+	private Long idUser;
+	private Long idBook;
 	
 	public BookUserPendingDto(){
 		super();
 	}
-	
-	public BookUserPendingDto(RUserDto rUserDto, BookDto bookDto){
+
+	public BookUserPendingDto(Long idUser, Long idBook) {
 		super();
-		this.rUserDto = rUserDto;
-		this.bookDto = bookDto;
+		this.idUser = idUser;
+		this.idBook = idBook;
 	}
 
-	public RUserDto getRUserDto() {
-		return rUserDto;
+	public Long getIdUser() {
+		return idUser;
 	}
 
-	public void setRUserDto(RUserDto rUserDto) {
-		this.rUserDto = rUserDto;
+	public void setIdUser(Long idUser) {
+		this.idUser = idUser;
 	}
 
-	public BookDto getBookDto() {
-		return bookDto;
+	public Long getIdBook() {
+		return idBook;
 	}
 
-	public void setBookDto(BookDto bookDto) {
-		this.bookDto = bookDto;
+	public void setIdBook(Long idBook) {
+		this.idBook = idBook;
 	}
 	
 }

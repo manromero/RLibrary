@@ -3,36 +3,28 @@ package org.restWebService.RLibrary.converter;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.restWebService.RLibrary.domain.Book;
 import org.restWebService.RLibrary.domain.BookUserPending;
 import org.restWebService.RLibrary.domain.RUser;
-import org.restWebService.RLibrary.dto.BookDto;
 import org.restWebService.RLibrary.dto.BookUserPendingDto;
-import org.restWebService.RLibrary.dto.RUserDto;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BookUserPendingConverter {
-	
-	@Resource
-	private RUserConverter rUserConverter;
-	
-	@Resource
-	private BookConverter bookConverter;
 	
 	public BookUserPending convertDtoToEntity(BookUserPendingDto dto){
 		BookUserPending entity = new BookUserPending();
 		if(dto!=null){
 			entity.setId(dto.getId());
 			entity.setVersion(dto.getVersion());
-			if(dto.getRUserDto()!=null){
-				RUser rUser = rUserConverter.convertDtoToEntity(dto.getRUserDto());
+			if(dto.getIdUser()!=null){
+				RUser rUser = new RUser();
+				rUser.setId(dto.getIdUser());
 				entity.setRUser(rUser);
 			}
-			if(dto.getBookDto()!=null){
-				Book book = bookConverter.convertDtoToEntity(dto.getBookDto());
+			if(dto.getIdBook()!=null){
+				Book book = new Book();
+				book.setId(dto.getIdBook());
 				entity.setBook(book);
 			}
 		}
@@ -45,12 +37,10 @@ public class BookUserPendingConverter {
 			dto.setId(entity.getId());
 			dto.setVersion(entity.getVersion());
 			if(entity.getRUser()!=null){
-				RUserDto rUserDto = rUserConverter.convertEntityToDto(entity.getRUser());
-				dto.setRUserDto(rUserDto);
+				dto.setIdUser(entity.getRUser().getId());
 			}
 			if(entity.getBook()!=null){
-				BookDto bookDto = bookConverter.convertEntityToDto(entity.getBook());
-				dto.setBookDto(bookDto);
+				dto.setIdBook(entity.getBook().getId());
 			}
 		}
 		return dto;

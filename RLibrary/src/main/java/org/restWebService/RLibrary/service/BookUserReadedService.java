@@ -1,5 +1,6 @@
 package org.restWebService.RLibrary.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -38,8 +39,58 @@ public class BookUserReadedService {
 	 * @return
 	 */
 	public BookUserReadedDto save(BookUserReadedDto bookUserReadedDto) {
-		// TODO Auto-generated method stub
-		return null;
-	} 
+		BookUserReadedDto res = null;
+		List<String> errores = validaBookUserReadedDto(bookUserReadedDto);
+		if(errores.isEmpty()){
+			BookUserReaded entityToSave = bookUserReadedConverter.convertDtoToEntity(bookUserReadedDto);
+			BookUserReaded entitySaved = bookUserReadedRepository.save(entityToSave);
+			res = bookUserReadedConverter.convertEntityToDto(entitySaved);
+		}else{
+			if(bookUserReadedDto==null){
+				res = new BookUserReadedDto();
+			}else{
+				res = bookUserReadedDto;
+			}
+		}
+		return res;
+	}
+	
+	/**
+	 * Valida que la relacion user - book que indica que un usuario ha leido un libro
+	 * tiene los campos correctamente rellenos 
+	 * @param bookUserReadedDto
+	 * @return
+	 */
+	private List<String> validaBookUserReadedDto(BookUserReadedDto bookUserReadedDto){
+		List<String> errores = new ArrayList<>();
+		if(bookUserReadedDto==null){
+			errores.add("Se ha indicado un valor nulo");
+		}else{
+			if(bookUserReadedDto.getIdUser()==null || !bookUserReadedDto.getIdUser().equals(0l)){
+				errores.add("No se reconoce el usuario actual");
+			}
+			if(bookUserReadedDto.getIdBook()==null || !bookUserReadedDto.getIdBook().equals(0l)){
+				errores.add("No se reconoce el libro actual");
+			}
+		}
+		return errores;
+	}
+
+	/**
+	 * Elimina la relacion user - readed que indica que un usuario ha leido un libro y puede que lo haya puntuado
+	 * @param idBookUserReaded
+	 * @return
+	 */
+	public BookUserReadedDto delete(Long idBookUserReaded) {
+		BookUserReadedDto res = new BookUserReadedDto();
+		if(idBookUserReaded!=null && !idBookUserReaded.equals(0l)){
+			bookUserReadedRepository.delete(idBookUserReaded);
+		}else{
+			List<String> errores = new ArrayList<>();
+			errores.add("No se ha especificado correctamente el usuario o el libro");
+			res.setErrores(errores);
+		}
+		return res;
+	}
 
 }

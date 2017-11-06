@@ -2,35 +2,35 @@ package org.restWebService.RLibrary.dto;
 
 public class BookUserReadedDto extends Dto {
 	
-	private RUserDto rUserDto;
-	private BookDto bookDto;
+	private Long idUser;
+	private Long idBook;
 	private Integer score;
 	
 	public BookUserReadedDto() {
 		super();
 	}
 
-	public BookUserReadedDto(RUserDto rUserDto, BookDto bookDto, Integer score) {
+	public BookUserReadedDto(Long idUser, Long idBook, Integer score) {
 		super();
-		this.rUserDto = rUserDto;
-		this.bookDto = bookDto;
+		this.idUser = idUser;
+		this.idBook = idBook;
 		this.score = score;
 	}
 
-	public RUserDto getRUserDto() {
-		return rUserDto;
+	public Long getIdUser() {
+		return idUser;
 	}
 
-	public void setRUserDto(RUserDto rUserDto) {
-		this.rUserDto = rUserDto;
+	public void setIdUser(Long idUser) {
+		this.idUser = idUser;
 	}
 
-	public BookDto getBookDto() {
-		return bookDto;
+	public Long getIdBook() {
+		return idBook;
 	}
 
-	public void setBookDto(BookDto bookDto) {
-		this.bookDto = bookDto;
+	public void setIdBook(Long idBook) {
+		this.idBook = idBook;
 	}
 
 	public Integer getScore() {
@@ -40,5 +40,5 @@ public class BookUserReadedDto extends Dto {
 	public void setScore(Integer score) {
 		this.score = score;
 	}
-
+	
 }

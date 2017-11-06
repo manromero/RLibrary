@@ -1,5 +1,6 @@
 package org.restWebService.RLibrary.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -37,8 +38,59 @@ public class BookUserPendingService {
 	 * @return
 	 */
 	public BookUserPendingDto save(BookUserPendingDto bookUserPendingDto) {
-		// TODO Auto-generated method stub
-		return null;
+		BookUserPendingDto res = null;
+		List<String> errores = validadBookUserPendingDto(bookUserPendingDto);
+		if(errores.isEmpty()){
+			BookUserPending entityToSave = bookUserPendingConverter.convertDtoToEntity(bookUserPendingDto);
+			BookUserPending entitySaved = bookUserPendingRepository.save(entityToSave);
+			res = bookUserPendingConverter.convertEntityToDto(entitySaved);
+		}else{
+			if(bookUserPendingDto==null){
+				res = new BookUserPendingDto();
+			}else{
+				res = bookUserPendingDto;
+			}
+			res.setErrores(errores);
+		}
+		return res;
+	}
+	
+	/**
+	 * Valida que la relacion user - book que indica que un usuario tieen pendiende de lectura un libro
+	 * tiene los campos correctamente rellenos 
+	 * @param bookUserPendingDto
+	 * @return
+	 */
+	private List<String> validadBookUserPendingDto(BookUserPendingDto bookUserPendingDto){
+		List<String> errores = new ArrayList<>();
+		if(bookUserPendingDto==null){
+			errores.add("Se ha indicado un valor nulo");
+		}else{
+			if(bookUserPendingDto.getIdUser()==null || !bookUserPendingDto.getIdUser().equals(0l)){
+				errores.add("No se reconoce el usuario actual");
+			}
+			if(bookUserPendingDto.getIdBook()==null || !bookUserPendingDto.getIdBook().equals(0l)){
+				errores.add("No se reconoce el libro actual");
+			}
+		}
+		return errores;
+	}
+
+	/**
+	 * Elimina la relacion user - book que indica que un libro esta pendiente de lectura para un usuario
+	 * @param idBookUserPending
+	 * @return
+	 */
+	public BookUserPendingDto delete(Long idBookUserPending) {
+		BookUserPendingDto res = new BookUserPendingDto();
+		if(idBookUserPending!=null && !idBookUserPending.equals(0l)){
+			bookUserPendingRepository.delete(idBookUserPending);
+		}else{
+			List<String> errores = new ArrayList<>();
+			errores.add("No se ha especificado correctamente el usuario o el libro");
+			res.setErrores(errores);
+		}
+		return res;
 	}
 
 }
