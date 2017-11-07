@@ -30,6 +30,7 @@ public class Application {
             	registry.addMapping("/bookFile/save");
             	registry.addMapping("/bookFile/findByIdBook/*");
             	registry.addMapping("/bookFile/delete/*");
+            	registry.addMapping("/bookFile/uploadFile/*");
             	registry.addMapping("/bookUserPending/save");
             	registry.addMapping("/bookUserPending/delete/*");
             	registry.addMapping("/bookUserReaded/save");

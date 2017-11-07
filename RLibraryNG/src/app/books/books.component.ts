@@ -319,42 +319,49 @@ export class BooksComponent implements OnInit {
    * @param event
    */
   uploadBookFile(event) {
-    /*
-    const fileList: FileList = event.target.files;
-    if (fileList.length > 0) {
-      let file: File = fileList[0];
-      let formData:FormData = new FormData();
-      formData.append('uploadFile', file, file.name);
-      let headers = new Headers();
-      headers.append('Content-Type', 'multipart/form-data');
-      headers.append('Accept', 'application/json');
-      let options = new RequestOptions({ headers: headers });
-      this.http.post(`${this.apiEndPoint}`, formData, options)
-        .map(res => res.json())
-        .catch(error => Observable.throw(error))
-        .subscribe(
-          data => console.log('success'),
-          error => console.log(error)
-        )
+    const inputEl: HTMLInputElement = <HTMLInputElement> document.getElementById('bookFile');
+    if (inputEl.files && inputEl.files[0]) {
+      const fileName = inputEl.files[0].name;
+      const partsToFormat = fileName.split('.');
+      if (partsToFormat != null && partsToFormat.length > 1) {
+        const format = partsToFormat[partsToFormat.length - 1];
+        const formData = new FormData();
+        formData.append('file', inputEl.files[0]);
+        this.bookFileService.uploadFile(this.bookDto.id, format, formData).subscribe(
+          data => {
+            // El fichero se ha subido correctamente
+            // Actualizamos la lista de ficheros
+            this.bookFileService.findByIdBook(this.bookDto.id).subscribe(data2 => this.listBookFile = data2);
+          },
+          error => {
+            console.log(error);
+          },
+          () => {
+            console.log('Llamada a subir fichero finalizada')
+          }
+        );
+      }
     }
-    */
   }
 
   /**
    * Descarga un book file
-   * @param data
+   * @param bookFile
    */
-  downloadBookFile(data) {
-    const blob = new Blob([data], { type: 'image/png' });
-    const filename = 'test.png';
-    saveAs(blob, filename);
+  downloadBookFile(bookFileDto) {
+    const filename = this.bookDto.title + '(' + this.bookDto.author + ').' + bookFileDto.format;
+    fetch('data:application/' + bookFileDto.format + ';base64,' + bookFileDto.file)
+      .then(function(resp) {return resp.blob()})
+      .then(function(blob) {
+        saveAs(blob, filename)
+      });
   }
 
   /**
    * Elimina un bookFile
    * @param idBookFile
    */
-  deleteBookFile(idBookFile){
+  deleteBookFile(idBookFile) {
     this.bookFileService.delete(idBookFile).subscribe(
       data => {
         // Actualizamos la lista de fichero de un book

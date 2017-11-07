@@ -76,6 +76,19 @@ public class BookService {
 		}
 		return res;
 	}
+	
+	/**
+	 * Devuelve un book entity por su id
+	 * @param idBook
+	 * @return
+	 */
+	public Book findEntityById(Long idBook){
+		Book res = new Book();
+		if(idBook!=null){
+			res = bookRepository.findOne(idBook);
+		}
+		return res;
+	}
 
 	/**
 	 * Guarda/Actualiza un libro en la base de datos

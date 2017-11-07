@@ -94,7 +94,7 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            <button class="btn btn-primary btn-block" *ngFor="let bf of listBookFile">Descargar libro en formato {{bf.format}}</button>
+            <button class="btn btn-primary btn-block" *ngFor="let bf of listBookFile" (click)="downloadBookFile(bf)">Descargar libro en formato {{bf.format}}</button>
           </div>
         </div>
       </div>
@@ -187,12 +187,12 @@
     <form  *ngIf="bookSaved && !deletedBook">
       <div class="form-group">
         <label for="bookFile">Ficheros</label>
-        <input id="bookFile" type="file" multiple="false" (change)="uploadBookFile($event)" accept=".pdf">
+        <input id="bookFile" type="file" multiple="false" (change)="uploadBookFile($event)" accept=".pdf, .epub, .mobi, .txt">
       </div>
 
       <div class="row margint10px" *ngFor="let bf of listBookFile">
         <div class="col-md-10">
-          <button class="btn btn-default btn-block">Descargar libro en formato {{bf.format}}</button>
+          <button class="btn btn-default btn-block" (click)="downloadBookFile(bf)">Descargar libro en formato {{bf.format}}</button>
         </div>
         <div class="col-md-2">
           <button class="btn btn-danger btn-block" (click)="deleteBookFile(bf.id)">Eliminar</button>

@@ -38,4 +38,16 @@ export class BookFileService {
       .catch(error => Promise.reject(error));
   }
 
+  /**
+   * Call to to upload a file to the book
+   * @param idBook
+   * @param format
+   * @param file
+   */
+  uploadFile(idBook: any, format: any, file: any) {
+    const url = Constants.API_ENDPOINT + 'bookFile/uploadFile/' + idBook + '/' + format;
+    const response = this.http.post(url, file).map(res => res.json()).catch(error => Promise.reject(error));
+    return response;
+  }
+
 }

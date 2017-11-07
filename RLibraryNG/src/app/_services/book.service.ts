@@ -63,7 +63,7 @@ export class BookService {
   }
 
   /**
-   * Call to to upload an image of a serie
+   * Call to to upload an image of a books
    * @param idBook
    * @param imageFile
    */

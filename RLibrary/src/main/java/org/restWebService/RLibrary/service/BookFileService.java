@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.restWebService.RLibrary.converter.BookFileConverter;
+import org.restWebService.RLibrary.domain.Book;
 import org.restWebService.RLibrary.domain.BookFile;
 import org.restWebService.RLibrary.dto.BookFileDto;
 import org.restWebService.RLibrary.repository.BookFileRepository;
@@ -17,6 +18,9 @@ public class BookFileService {
 	
 	@Autowired
 	private BookFileRepository bookFileRepository;
+	
+	@Autowired
+	private BookService bookService;
 	
 	@Resource
 	private BookFileConverter bookFileConverter;
@@ -99,6 +103,24 @@ public class BookFileService {
 			List<String> errores = new ArrayList<>();
 			errores.add("El archivo seleccionado no puede ser nulo");
 			res.setErrores(errores);
+		}
+		return res;
+	}
+
+	/**
+	 * Sube un fichero de un libro determiando
+	 * @param idBook
+	 * @param format
+	 * @param fileData
+	 * @return
+	 */
+	public BookFileDto uploadFile(Long idBook, String format, byte[] fileData) {
+		BookFileDto res = new BookFileDto();
+		if(idBook!=null && format!=null && fileData!=null){
+			Book bookEntity = bookService.findEntityById(idBook);
+			BookFile entityToSave = new BookFile(fileData, format, bookEntity);
+			BookFile entitySaved = bookFileRepository.save(entityToSave);
+			res = bookFileConverter.convertEntityToDto(entitySaved);
 		}
 		return res;
 	}
