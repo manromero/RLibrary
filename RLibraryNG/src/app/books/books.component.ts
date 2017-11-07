@@ -328,10 +328,10 @@ export class BooksComponent implements OnInit {
         const formData = new FormData();
         formData.append('file', inputEl.files[0]);
         this.bookFileService.uploadFile(this.bookDto.id, format, formData).subscribe(
-          data => {
+          result => {
             // El fichero se ha subido correctamente
             // Actualizamos la lista de ficheros
-            this.bookFileService.findByIdBook(this.bookDto.id).subscribe(data2 => this.listBookFile = data2);
+            this.bookFileService.findByIdBook(this.bookDto.id).subscribe(data => this.listBookFile = data);
           },
           error => {
             console.log(error);
