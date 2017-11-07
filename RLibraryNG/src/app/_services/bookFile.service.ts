@@ -26,4 +26,16 @@ export class BookFileService {
       .catch(error => Promise.reject(error));
   }
 
+  /**
+   * Elimina un libro fichero de un libro
+   * @param idBookFile
+   * @returns {Observable<R|T>}
+   */
+  delete(idBookFile: any) {
+    const url = Constants.API_ENDPOINT + 'bookFile/delete/' + idBookFile;
+    return this.http.get(url)
+      .map((response: Response) => response.json())
+      .catch(error => Promise.reject(error));
+  }
+
 }

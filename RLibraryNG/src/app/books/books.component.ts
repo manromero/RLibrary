@@ -350,4 +350,20 @@ export class BooksComponent implements OnInit {
     saveAs(blob, filename);
   }
 
+  /**
+   * Elimina un bookFile
+   * @param idBookFile
+   */
+  deleteBookFile(idBookFile){
+    this.bookFileService.delete(idBookFile).subscribe(
+      data => {
+        // Actualizamos la lista de fichero de un book
+        this.bookFileService.findByIdBook(this.bookDto.id).subscribe(data2 => this.listBookFile = data2);
+      },
+      error => {
+        console.log(error)
+      }
+    );
+  }
+
 }

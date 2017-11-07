@@ -195,7 +195,7 @@
           <button class="btn btn-default btn-block">Descargar libro en formato {{bf.format}}</button>
         </div>
         <div class="col-md-2">
-          <button class="btn btn-danger btn-block">Eliminar</button>
+          <button class="btn btn-danger btn-block" (click)="deleteBookFile(bf.id)">Eliminar</button>
         </div>
       </div>
 
