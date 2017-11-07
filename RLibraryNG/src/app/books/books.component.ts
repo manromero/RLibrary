@@ -139,20 +139,6 @@ export class BooksComponent implements OnInit {
         this.bookFileService.findByIdBook(idBook).subscribe(data2 => this.listBookFile = data2);
         // El modal no se mostrará en formato edicion
         this.isBeingEdited = false;
-        // Indica que un book se ha eliminado
-        this.deletedBook = false;
-        // Indica si se ha producido algun error al guardar el book
-        this.errorSaveBook = null;
-        // Indica si se está procesando el guardado del book
-        this.loadingBook = false;
-        // El book proviene de base de datos
-        this.bookSaved = true;
-        // Indica si una serie se ha guardado correctamente
-        this.bookModified = false;
-        // Indica si una imagen se ha añadido correctamente
-        this.okImageAdd = false;
-        // Indica si se ha producido un error al añadir una imagen
-        this.errorImage = null;
         this.modalRef = this.modalService.show(templateRef, Object.assign({class: 'modal-lg'}));
       },
       error => {
@@ -177,6 +163,20 @@ export class BooksComponent implements OnInit {
    */
   changeToEditMode() {
     this.isBeingEdited = true;
+    // Indica que un book se ha eliminado
+    this.deletedBook = false;
+    // Indica si se ha producido algun error al guardar el book
+    this.errorSaveBook = null;
+    // Indica si se está procesando el guardado del book
+    this.loadingBook = false;
+    // El book proviene de base de datos
+    this.bookSaved = true;
+    // Indica si una serie se ha guardado correctamente
+    this.bookModified = false;
+    // Indica si una imagen se ha añadido correctamente
+    this.okImageAdd = false;
+    // Indica si se ha producido un error al añadir una imagen
+    this.errorImage = null;
   }
 
   /**
