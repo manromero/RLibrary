@@ -23,9 +23,9 @@
 
           <div class="row">
             <div *ngFor="let b of listBook" class="col-md-4 marginb4">
-              <div class="imageBorder">
-                <img *ngIf="!b.cover" width="100%" height="240px" src="../../assets/images/default.png">
-                <img *ngIf="b.cover" width="100%" height="240px" src="data:image/png;base64,{{b.cover}}">
+              <div class="imageBorder cursorPointer">
+                <img *ngIf="!b.cover" width="100%" height="240px" src="../../assets/images/default.png" (click)="openViewModal(viewModal, b.id)">
+                <img *ngIf="b.cover" width="100%" height="240px" src="data:image/png;base64,{{b.cover}}" (click)="openViewModal(viewModal, b.id)">
               </div>
               <div class="row">
                 <div class="col-md-12 textAlignCenter">
@@ -42,3 +42,175 @@
 
   </div><!-- termina row -->
 </div><!-- termina container-->
+
+<!-- Modal -->
+<ng-template #viewModal>
+
+  <!-- Visualizando el libro -->
+  <div class="modal-header" *ngIf="!isBeingEdited">
+    <h4 class="modal-title pull-left">{{bookDto.title}} - {{bookDto.author}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <!-- Editando/creando el libro -->
+  <div class="modal-header" *ngIf="isBeingEdited">
+    <h4 class="modal-title pull-left">Edición / Creacion Libro</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <!-- Visualizando el libro -->
+  <div class="modal-body" *ngIf="!isBeingEdited">
+
+    <div class="row">
+
+      <div class="col-md-4">
+        <div class="row">
+          <div class="col-md-12 imageBorder">
+            <img *ngIf="!bookDto.cover" width="100%" height="300px" src="../../assets/images/default.png">
+            <img *ngIf="bookDto.cover" width="100%" height="300px" src="data:image/png;base64,{{bookDto.cover}}">
+          </div>
+        </div>
+        <div class="row margint3">
+          <div class="col-md-12">
+            <button class="btn btn-default btn-block" (click)="changeToEditMode()">Editar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-12">
+            <h4>Descripción:</h4>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <p>{{bookDto.description}}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <button class="btn btn-primary btn-block" *ngFor="let bf of listBookFile">Descargar libro en formato {{bf.format}}</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Editando/creando el libro -->
+  <div class="modal-body" *ngIf="isBeingEdited">
+
+    <form (ngSubmit)="saveBook(bookForm)" #bookForm="ngForm" *ngIf="!deletedBook">
+
+      <!-- la version y el id estaran presentes cuando el book se este editando y no creando -->
+      <input *ngIf="bookDto.id" type="hidden" name="id" [(ngModel)]="bookDto.id" #id="ngModel">
+      <input *ngIf="bookDto.version" type="hidden" name="version" [(ngModel)]="bookDto.version" #version="ngModel">
+
+      <div class="form-group">
+        <label for="title">Título</label>
+        <input id="title" name="title" class="form-control" type="text" [(ngModel)]="bookDto.title" #title="ngModel" placeholder="Título" required [rangeLength]="[1, 100]"/>
+        <div *ngIf="(title.touched || bookForm.submitted) && title.hasError('required')" class="alert alert-danger">El Título del libro es obligatorio</div>
+        <div *ngIf="(title.touched || bookForm.submitted) && title.hasError('rangeLength')" class="alert alert-danger">El Título del libro debe estar comprendido entre 1 y 100 caracteres</div>
+      </div>
+
+      <div class="form-group">
+        <label for="author">Autor</label>
+        <input id="author" name="author" class="form-control" type="text" [(ngModel)]="bookDto.author" #author="ngModel" placeholder="Autor" required [rangeLength]="[1, 100]"/>
+        <div *ngIf="(author.touched || bookForm.submitted) && author.hasError('required')" class="alert alert-danger">El Autor del libro es obligatorio</div>
+        <div *ngIf="(author.touched || bookForm.submitted) && author.hasError('rangeLength')" class="alert alert-danger">El Autor del libro debe estar comprendido entre 1 y 100 caracteres</div>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Descripción</label>
+        <textarea id="description" name="description" class="form-control" type="text" [(ngModel)]="bookDto.description" #description="ngModel" placeholder="Descripción" required [rangeLength]="[1, 500]"></textarea>
+        <div *ngIf="(description.touched || bookForm.submitted) && description.hasError('required')" class="alert alert-danger">La Descipción del libro es obligatoria</div>
+        <div *ngIf="(description.touched || bookForm.submitted) && description.hasError('rangeLength')" class="alert alert-danger">La Descripción del libro debe estar comprendida entre 1 y 500 caracteres</div>
+      </div>
+
+      <div class="form-group">
+        <label for="bookTypeDto">Género</label>
+        <select id="bookTypeDto" name="bookTypeDto" class="form-control" [(ngModel)]="bookDto.bookTypeDto.id" #bookTypeDto="ngModel" required>
+          <option [ngValue]="null">Seleccione Género</option>
+          <option *ngFor="let bt of listBookType" [ngValue]="bt.id">{{bt.description}}</option>
+        </select>
+        <div *ngIf="(bookTypeDto.touched || bookForm.submitted) && bookTypeDto.hasError('required')" class="alert alert-danger">El Género del libro es obligatorio</div>
+      </div>
+
+      <div class="alert alert-danger" *ngIf="errorSaveBook">{{errorSaveBook}}</div>
+      <div class="alert alert-success" *ngIf="bookModified">El Libro se ha guardado correctamente</div>
+
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-3 col-md-offset-3 textAlignCenter">
+            <button type="button" [disabled]="!bookDto || !bookDto.id" (click)="openModal(modalDeleteBook)" class="btn btn-danger btn-block">Eliminar Libro</button>
+          </div>
+          <div class="col-md-3 textAlignCenter">
+            <button type="submit" [disabled]="loadingBook" class="btn btn-primary btn-block">Guardar Libro</button>
+          </div>
+        </div>
+      </div>
+
+
+    </form>
+
+    <!-- Form para subir imagen -->
+    <form  *ngIf="bookSaved && !deletedBook">
+      <div class="form-group">
+        <label for="portada">Portada</label>
+        <input id="portada" type="file" multiple="false" (change)="previewImage($event)" accept="image/*">
+      </div>
+
+      <div class="form-group textAlignCenter imageBorder" *ngIf="imagePreview">
+        <img width="270px" height="300px" [src]="imagePreview">
+      </div>
+
+      <div class="form-group textAlignCenter imageBorder" *ngIf="!imagePreview && bookDto.cover">
+        <img width="270px" height="300px" src="data:image/png;base64,{{bookDto.cover}}">
+      </div>
+
+      <div class="alert alert-danger" *ngIf="errorImage">{{errorImage}}</div>
+      <div class="alert alert-success" *ngIf="okImageAdd">La imagen se ha guardado correctamente</div>
+
+      <div class="form-group textAlignCenter">
+        <button [disabled]="loadingImage" (click)="uploadImage()" class="btn btn-primary">Editar Imagen</button>
+      </div>
+
+    </form>
+
+
+    <div class="alert alert-success" *ngIf="deletedBook">El Libro se ha eliminado correctamente</div>
+
+
+  </div>
+
+</ng-template>
+
+<!-- Modal eliminar book -->
+<ng-template #modalDeleteBook>
+
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{bookDto.title}} - {{bookDto.author}}</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <h2>¿Desea eliminar el libro?</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <button (click)="modalRef.hide()" class="btn btn-primary btn-block">No</button>
+      </div>
+      <div class="col-md-6">
+        <button (click)="deleteBook()" class="btn btn-danger btn-block">Si</button>
+      </div>
+    </div>
+  </div>
+
+</ng-template>

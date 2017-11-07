@@ -18,9 +18,9 @@ public class RUserController {
 	@Autowired
 	private RUserService rUserService;
 	
-	@RequestMapping(value = "/findAllOrderByAliasDesc", method = RequestMethod.GET)
-	public List<RUserDto> findAllOrderByAliasDesc(){
-		return rUserService.findAllOrderByAliasDesc();
+	@RequestMapping(value = "/findAllOrderByAliasAsc", method = RequestMethod.GET)
+	public List<RUserDto> findAllOrderByAliasAsc(){
+		return rUserService.findAllOrderByAliasAsc();
 	}
 	
 	@RequestMapping(value = "/save", method = RequestMethod.POST)

@@ -46,8 +46,8 @@ public class BookTypeService {
 	 * Devuelve todos los tipos de libros por su descripcion
 	 * @return
 	 */
-	public List<BookTypeDto> findAllByDescriptionDesc(){
-		List<BookType> entities = bookTypeRepository.findAllByDescriptionDesc();
+	public List<BookTypeDto> findAllByDescriptionAsc(){
+		List<BookType> entities = bookTypeRepository.findAllByDescriptionAsc();
 		List<BookTypeDto> res = bookTypeConverter.convertListEntityToListDto(entities);
 		return res;
 	}
@@ -61,6 +61,19 @@ public class BookTypeService {
 		BookType res = new BookType();
 		if(description!=null){
 			res = bookTypeRepository.findByDescription(description);
+		}
+		return res;
+	}
+	
+	/**
+	 * Devuelve un book type entity por su id
+	 * @param id
+	 * @return
+	 */
+	public BookType findEntityById(Long id){
+		BookType res = new BookType();
+		if(id!=null){
+			res = bookTypeRepository.findOne(id);
 		}
 		return res;
 	}

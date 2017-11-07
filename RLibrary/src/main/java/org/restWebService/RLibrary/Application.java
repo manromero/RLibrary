@@ -19,10 +19,12 @@ public class Application {
         return new WebMvcConfigurerAdapter() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-            	registry.addMapping("/book/findAllByTitleDesc");
+            	registry.addMapping("/book/findAllByTitleAsc");
+            	registry.addMapping("/book/findById/*");
             	registry.addMapping("/book/save");
             	registry.addMapping("/book/delete/*");
-            	registry.addMapping("/bookType/findAllByDescriptionDesc");
+            	registry.addMapping("/book/uploadImage/*");
+            	registry.addMapping("/bookType/findAllByDescriptionAsc");
             	registry.addMapping("/bookType/save");
             	registry.addMapping("/bookType/delete/*");
             	registry.addMapping("/bookFile/save");
@@ -32,7 +34,7 @@ public class Application {
             	registry.addMapping("/bookUserPending/delete/*");
             	registry.addMapping("/bookUserReaded/save");
             	registry.addMapping("/bookUserReaded/delete/*");
-            	registry.addMapping("/rUser/findAllOrderByAliasDesc");
+            	registry.addMapping("/rUser/findAllOrderByAliasAsc");
             	registry.addMapping("/rUser/save");
             	registry.addMapping("/rUser/delete/*");
             }

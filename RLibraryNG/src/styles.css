@@ -43,3 +43,7 @@
 .textAlignRight {
   text-align: right;
 }
+
+.cursorPointer{
+  cursor: pointer;
+}

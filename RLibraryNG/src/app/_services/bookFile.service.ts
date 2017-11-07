@@ -1,5 +1,5 @@
 /**
- * Created by manromero on 06/11/2017.
+ * Created by manromero on 07/11/2017.
  */
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -9,17 +9,18 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 @Injectable()
-export class BookTypeService {
+export class BookFileService {
 
   constructor(private http: Http) {
   }
 
   /**
-   * Devuelve todos los tipos de libros ordenados por descripcion asc
+   * Devuelve todos los archivos subidos de un determinado book
+   * @param book seleccionado
    * @returns {Observable<R|T>}
    */
-  findAllByDescriptionDesc(): Observable<String[]> {
-    const url = Constants.API_ENDPOINT + 'bookType/findAllByDescriptionAsc';
+  findByIdBook(idBook): Observable<String[]> {
+    const url = Constants.API_ENDPOINT + 'bookFile/findByIdBook/' + idBook;
     return this.http.get(url)
       .map((response: Response) => response.json())
       .catch(error => Promise.reject(error));

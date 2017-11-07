@@ -31,8 +31,8 @@ public class RUserService {
 	 * Devuelve todos los usuarios ordenados por su alias desc
 	 * @return
 	 */
-	public List<RUserDto> findAllOrderByAliasDesc() {
-		List<RUser> entities = rUserRepository.findAllOrderByAliasDesc();
+	public List<RUserDto> findAllOrderByAliasAsc() {
+		List<RUser> entities = rUserRepository.findAllOrderByAliasAsc();
 		List<RUserDto> res = rUserConverter.convertListEntityToListDto(entities);
 		return res;
 	}

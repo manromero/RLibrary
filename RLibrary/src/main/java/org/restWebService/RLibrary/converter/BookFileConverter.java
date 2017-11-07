@@ -17,6 +17,7 @@ public class BookFileConverter {
 			entity.setId(dto.getId());
 			entity.setVersion(dto.getVersion());
 			entity.setFile(dto.getFile());
+			entity.setFormat(dto.getFormat());
 			if(dto.getIdBook()!=null){
 				Book bookEntity = new Book();
 				bookEntity.setId(dto.getIdBook());
@@ -32,6 +33,7 @@ public class BookFileConverter {
 			dto.setId(entity.getId());
 			dto.setVersion(entity.getVersion());
 			dto.setFile(entity.getFile());
+			dto.setFormat(entity.getFormat());
 			if(entity.getBook()!=null){
 				dto.setIdBook(entity.getBook().getId());
 			}

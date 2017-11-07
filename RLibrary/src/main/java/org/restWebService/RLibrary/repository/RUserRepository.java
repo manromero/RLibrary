@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 @Transactional
 public interface RUserRepository extends JpaRepository<RUser, Long> {
 
-	@Query("SELECT u FROM RUser u ORDER BY u.alias DESC")
-	public List<RUser> findAllOrderByAliasDesc();
+	@Query("SELECT u FROM RUser u ORDER BY u.alias ASC")
+	public List<RUser> findAllOrderByAliasAsc();
 
 }

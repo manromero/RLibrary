@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.restWebService.RLibrary.converter.BookConverter;
 import org.restWebService.RLibrary.domain.Book;
+import org.restWebService.RLibrary.domain.BookType;
 import org.restWebService.RLibrary.dto.BookDto;
 import org.restWebService.RLibrary.repository.BookRepository;
 import org.restWebService.RLibrary.util.Constantes;
@@ -56,9 +57,23 @@ public class BookService {
 	 * Devuelve todos los libros por su title desc
 	 * @return
 	 */
-	public List<BookDto> findAllByTitleDesc(){
-		List<Book> entities = bookRepository.findAllByTitleDesc();
+	public List<BookDto> findAllByTitleAsc(){
+		List<Book> entities = bookRepository.findAllByTitleAsc();
 		List<BookDto> res = bookConverter.convertListEntityToListDto(entities);
+		return res;
+	}
+	
+	/**
+	 * Devuelve un libro por su id
+	 * @param idBook
+	 * @return
+	 */
+	public BookDto findById(Long idBook) {
+		BookDto res = new BookDto();
+		if(idBook!=null){
+			Book entity = bookRepository.findOne(idBook);
+			res = bookConverter.convertEntityToDto(entity);
+		}
 		return res;
 	}
 
@@ -72,7 +87,16 @@ public class BookService {
 		BookDto res = null;
 		List<String> errores = validaBookDto(bookDto);
 		if(errores.isEmpty()){
+			// Recuperamos la imagen que tuviera ya que en el filmDto para guardar no vendrá
+			if(bookDto.getId()!=null) {
+				Book aux = bookRepository.findOne(bookDto.getId());
+				if(aux != null && aux.getCover()!=null) {
+					bookDto.setCover(aux.getCover());
+				}
+			}
+			BookType bookTypeEntity = bookTypeService.findEntityById(bookDto.getBookTypeDto().getId());
 			Book entityToSave = bookConverter.convertDtoToEntity(bookDto);
+			entityToSave.setBookType(bookTypeEntity);
 			Book entitySaved = bookRepository.save(entityToSave);
 			res = bookConverter.convertEntityToDto(entitySaved);
 		}else{
@@ -83,7 +107,7 @@ public class BookService {
 			}
 			res.setErrores(errores);
 		}
-		return null;
+		return res;
 	}
 	
 	/**
@@ -101,6 +125,9 @@ public class BookService {
 			}
 			if(bookDto.getAuthor()==null || bookDto.getAuthor().trim().equals("")){
 				errores.add("Se debe indicar el Autor del libro");
+			}
+			if(bookDto.getDescription()==null || bookDto.getDescription().trim().equals("")){
+				errores.add("Se debe indicar la Descripción del libro");
 			}
 			if(bookDto.getBookTypeDto()==null || bookDto.getBookTypeDto().getId()==null || bookDto.getBookTypeDto().getId().equals(0l)){
 				errores.add("Se debe indicar el Tipo del libro");
@@ -145,5 +172,24 @@ public class BookService {
 		}
 		return res;
 	}
-	
+
+	/**
+	 * Actualiza la imagen de un libro
+	 * @param idBook
+	 * @param image
+	 * @return
+	 */
+	public BookDto uploadCoverImage(Long idBook, byte[] image) {
+		BookDto res = new BookDto();
+		if(idBook!=null) {
+			Book entity = bookRepository.findOne(idBook);
+			if(entity!=null) {
+				entity.setCover(image);
+				Book entitySaved = bookRepository.save(entity);
+				res = bookConverter.convertEntityToDto(entitySaved);
+			}
+		}
+		return res;
+	}
+
 }

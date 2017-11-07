@@ -13,8 +13,8 @@ import org.springframework.data.jpa.repository.Query;
 public interface BookRepository extends JpaRepository<Book, Long> {
 
 	
-	@Query("SELECT b FROM Book b ORDER BY b.title DESC")
-	public List<Book> findAllByTitleDesc();
+	@Query("SELECT b FROM Book b ORDER BY b.title ASC")
+	public List<Book> findAllByTitleAsc();
 
 	@Query("SELECT b FROM Book b WHERE b.bookType.id = ?1")
 	public List<Book> findByIdBookType(Long idBookType);

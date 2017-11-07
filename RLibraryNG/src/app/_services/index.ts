@@ -3,3 +3,4 @@
  */
 export * from './bookType.service';
 export * from './book.service';
+export * from './bookFile.service';

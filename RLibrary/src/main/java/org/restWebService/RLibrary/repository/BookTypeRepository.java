@@ -11,8 +11,8 @@ import org.springframework.data.jpa.repository.Query;
 @Transactional
 public interface BookTypeRepository extends JpaRepository<BookType, Long> {
 
-	@Query("SELECT bt FROM BookType bt ORDER BY bt.description")
-	public List<BookType> findAllByDescriptionDesc();
+	@Query("SELECT bt FROM BookType bt ORDER BY bt.description ASC")
+	public List<BookType> findAllByDescriptionAsc();
 
 	@Query("SELECT bt FROM BookType bt WHERE bt.description = ?1 ")
 	public BookType findByDescription(String description);

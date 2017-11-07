@@ -18,9 +18,9 @@ public class BookTypeController {
 	@Autowired
 	private BookTypeService bookTypeService;
 	
-	@RequestMapping(value = "/findAllByDescriptionDesc", method = RequestMethod.GET)
-	public List<BookTypeDto> findAllByDescriptionDesc(){
-		return bookTypeService.findAllByDescriptionDesc();
+	@RequestMapping(value = "/findAllByDescriptionAsc", method = RequestMethod.GET)
+	public List<BookTypeDto> findAllByDescriptionAsc(){
+		return bookTypeService.findAllByDescriptionAsc();
 	}
 	
 	@RequestMapping(value = "/save", method = RequestMethod.POST)

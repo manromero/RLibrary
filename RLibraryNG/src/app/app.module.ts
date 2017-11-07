@@ -3,14 +3,16 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CustomFormsModule } from 'ng2-validation';
 
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { AppComponent } from './app.component';
 
 import { Constants } from './utils/constants';
 import { BooksComponent } from './books/books.component';
-import { BookTypeService, BookService } from './_services/index';
+import { BookTypeService, BookService, BookFileService } from './_services/index';
 
 const appRoutes: Routes = [
   { path: '', component: BooksComponent },
@@ -26,13 +28,16 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     FormsModule,
+    CustomFormsModule,
     HttpModule,
     RouterModule.forRoot(appRoutes),
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot(),
+    ModalModule.forRoot()
   ],
   providers: [
     BookTypeService,
-    BookService
+    BookService,
+    BookFileService
   ],
   bootstrap: [AppComponent]
 })
