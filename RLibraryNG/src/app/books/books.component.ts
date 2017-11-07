@@ -349,7 +349,7 @@ export class BooksComponent implements OnInit {
    * @param bookFile
    */
   downloadBookFile(bookFileDto) {
-    const filename = this.bookDto.title + '(' + this.bookDto.author + ').' + bookFileDto.format;
+    const filename = this.bookDto.title + ' (' + this.bookDto.author + ').' + bookFileDto.format;
     fetch('data:application/' + bookFileDto.format + ';base64,' + bookFileDto.file)
       .then(function(resp) {return resp.blob()})
       .then(function(blob) {
