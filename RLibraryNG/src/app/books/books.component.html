@@ -183,6 +183,26 @@
 
     </form>
 
+    <!-- Form para subir ficheros -->
+    <form  *ngIf="bookSaved && !deletedBook">
+      <div class="form-group">
+        <label for="bookFile">Ficheros</label>
+        <input id="bookFile" type="file" multiple="false" (change)="uploadBookFile($event)" accept=".pdf">
+      </div>
+
+      <div class="row margint10px" *ngFor="let bf of listBookFile">
+        <div class="col-md-10">
+          <button class="btn btn-default btn-block">Descargar libro en formato {{bf.format}}</button>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-danger btn-block">Eliminar</button>
+        </div>
+      </div>
+
+
+    </form>
+
+
 
     <div class="alert alert-success" *ngIf="deletedBook">El Libro se ha eliminado correctamente</div>
 

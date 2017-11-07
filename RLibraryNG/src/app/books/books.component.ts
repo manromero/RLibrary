@@ -4,6 +4,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { FormGroup } from '@angular/forms';
 import { FileReaderEvent } from '../utils/fileReaderInterface';
+import { saveAs } from 'file-saver/FileSaver';
 
 @Component({
   templateUrl: './books.component.html',
@@ -311,6 +312,42 @@ export class BooksComponent implements OnInit {
           }
         );
     }
+  }
+
+  /**
+   * Sbuir un fichero asociado a un book
+   * @param event
+   */
+  uploadBookFile(event) {
+    /*
+    const fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+      let file: File = fileList[0];
+      let formData:FormData = new FormData();
+      formData.append('uploadFile', file, file.name);
+      let headers = new Headers();
+      headers.append('Content-Type', 'multipart/form-data');
+      headers.append('Accept', 'application/json');
+      let options = new RequestOptions({ headers: headers });
+      this.http.post(`${this.apiEndPoint}`, formData, options)
+        .map(res => res.json())
+        .catch(error => Observable.throw(error))
+        .subscribe(
+          data => console.log('success'),
+          error => console.log(error)
+        )
+    }
+    */
+  }
+
+  /**
+   * Descarga un book file
+   * @param data
+   */
+  downloadBookFile(data) {
+    const blob = new Blob([data], { type: 'image/png' });
+    const filename = 'test.png';
+    saveAs(blob, filename);
   }
 
 }
