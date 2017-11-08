@@ -3,9 +3,21 @@
 
     <div class="col-md-3">
 
-      <div class="list-group">
-        <button type="button" class="list-group-item" [ngClass]="{'active': bookTypeSelected == 0 }" (click)="changeBookTypeSelected(0)"> Todos </button>
-        <button type="button" *ngFor="let bt of listBookType" class="list-group-item" [ngClass]="{'active': bookTypeSelected == bt.id }" (click)="changeBookTypeSelected(bt.id)"> {{bt.description}} </button>
+      <div class="panel">
+        <div class="panel-body">
+
+          <div class="row">
+            <div class="col-md-12">
+              <button class="btn btn-success btn-block" (click)="createBook(viewModal)">Nuevo Libro</button>
+            </div>
+          </div>
+
+          <div class="list-group margint20px">
+            <button type="button" class="list-group-item" [ngClass]="{'active': bookTypeSelected == 0 }" (click)="changeBookTypeSelected(0)"> Todos </button>
+            <button type="button" *ngFor="let bt of listBookType" class="list-group-item" [ngClass]="{'active': bookTypeSelected == bt.id }" (click)="changeBookTypeSelected(bt.id)"> {{bt.description}} </button>
+          </div>
+
+        </div>
       </div>
 
     </div>

@@ -152,6 +152,36 @@ export class BooksComponent implements OnInit {
   }
 
   /**
+   * Abre el modal para crear un nuevo libro
+   * @param templateRef
+   */
+  createBook(templateRef) {
+    // Inicializamos el bookDto
+    this.bookDto = {};
+    this.bookDto.bookTypeDto = {id: null};
+    // El listado de ficheros en un primer momento es vacio
+    this.listBookFile = [];
+    // Muestra el modal en modo edicion
+    this.isBeingEdited = true;
+    // Indica que un book se ha eliminado
+    this.deletedBook = false;
+    // Indica si se ha producido algun error al guardar el book
+    this.errorSaveBook = null;
+    // Indica si se está procesando el guardado del book
+    this.loadingBook = false;
+    // El book proviene de base de datos
+    this.bookSaved = false;
+    // Indica si una serie se ha guardado correctamente
+    this.bookModified = false;
+    // Indica si una imagen se ha añadido correctamente
+    this.okImageAdd = false;
+    // Indica si se ha producido un error al añadir una imagen
+    this.errorImage = null;
+    // Abre el modal
+    this.modalRef = this.modalService.show(templateRef, Object.assign({class: 'modal-lg'}));
+  }
+
+  /**
    * Abrir modal
    * @param {TemplateRef<any>} referenciaModal
    */
@@ -163,6 +193,7 @@ export class BooksComponent implements OnInit {
    * El modal de visualizacion pasa a verse en modo editicion
    */
   changeToEditMode() {
+    // Muestra el modal en modo edicion
     this.isBeingEdited = true;
     // Indica que un book se ha eliminado
     this.deletedBook = false;
