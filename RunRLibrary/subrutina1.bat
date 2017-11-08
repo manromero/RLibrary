@@ -1,2 +1,3 @@
 echo Cargando subrutina 1...
+cd "C:\Users\manromero\RLibrary\RLibrary\target"
 java -jar "RLibrary-RLibrary-1.0.jar"
