@@ -1,0 +1,3 @@
+echo Cargando subrutina 3...
+TIMEOUT 20
+start chrome "http://localhost:4200"
