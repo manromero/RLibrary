@@ -118,103 +118,129 @@
   <!-- Editando/creando el libro -->
   <div class="modal-body" *ngIf="isBeingEdited">
 
-    <form (ngSubmit)="saveBook(bookForm)" #bookForm="ngForm" *ngIf="!deletedBook">
+    <div class="row" *ngIf="!deletedBook">
 
-      <!-- la version y el id estaran presentes cuando el book se este editando y no creando -->
-      <input *ngIf="bookDto.id" type="hidden" name="id" [(ngModel)]="bookDto.id" #id="ngModel">
-      <input *ngIf="bookDto.version" type="hidden" name="version" [(ngModel)]="bookDto.version" #version="ngModel">
+      <div class="col-md-5">
 
-      <div class="form-group">
-        <label for="title">Título</label>
-        <input id="title" name="title" class="form-control" type="text" [(ngModel)]="bookDto.title" #title="ngModel" placeholder="Título" required [rangeLength]="[1, 100]"/>
-        <div *ngIf="(title.touched || bookForm.submitted) && title.hasError('required')" class="alert alert-danger">El Título del libro es obligatorio</div>
-        <div *ngIf="(title.touched || bookForm.submitted) && title.hasError('rangeLength')" class="alert alert-danger">El Título del libro debe estar comprendido entre 1 y 100 caracteres</div>
-      </div>
-
-      <div class="form-group">
-        <label for="author">Autor</label>
-        <input id="author" name="author" class="form-control" type="text" [(ngModel)]="bookDto.author" #author="ngModel" placeholder="Autor" required [rangeLength]="[1, 100]"/>
-        <div *ngIf="(author.touched || bookForm.submitted) && author.hasError('required')" class="alert alert-danger">El Autor del libro es obligatorio</div>
-        <div *ngIf="(author.touched || bookForm.submitted) && author.hasError('rangeLength')" class="alert alert-danger">El Autor del libro debe estar comprendido entre 1 y 100 caracteres</div>
-      </div>
-
-      <div class="form-group">
-        <label for="description">Descripción</label>
-        <textarea id="description" name="description" class="form-control" type="text" [(ngModel)]="bookDto.description" #description="ngModel" placeholder="Descripción" required [rangeLength]="[1, 500]"></textarea>
-        <div *ngIf="(description.touched || bookForm.submitted) && description.hasError('required')" class="alert alert-danger">La Descipción del libro es obligatoria</div>
-        <div *ngIf="(description.touched || bookForm.submitted) && description.hasError('rangeLength')" class="alert alert-danger">La Descripción del libro debe estar comprendida entre 1 y 500 caracteres</div>
-      </div>
-
-      <div class="form-group">
-        <label for="bookTypeDto">Género</label>
-        <select id="bookTypeDto" name="bookTypeDto" class="form-control" [(ngModel)]="bookDto.bookTypeDto.id" #bookTypeDto="ngModel" required>
-          <option [ngValue]="null">Seleccione Género</option>
-          <option *ngFor="let bt of listBookType" [ngValue]="bt.id">{{bt.description}}</option>
-        </select>
-        <div *ngIf="(bookTypeDto.touched || bookForm.submitted) && bookTypeDto.hasError('required')" class="alert alert-danger">El Género del libro es obligatorio</div>
-      </div>
-
-      <div class="alert alert-danger" *ngIf="errorSaveBook">{{errorSaveBook}}</div>
-      <div class="alert alert-success" *ngIf="bookModified">El Libro se ha guardado correctamente</div>
-
-      <div class="form-group">
         <div class="row">
-          <div class="col-md-3 col-md-offset-3 textAlignCenter">
-            <button type="button" [disabled]="!bookDto || !bookDto.id" (click)="openModal(modalDeleteBook)" class="btn btn-danger btn-block">Eliminar Libro</button>
+          <div class="col-md-12">
+
+            <!-- Form para subir imagen -->
+            <form>
+              <div class="form-group">
+                <label for="portada">Portada</label>
+                <input id="portada" type="file" multiple="false" (change)="previewImage($event)" accept="image/*" [disabled]="!bookSaved">
+              </div>
+
+              <div class="form-group textAlignCenter imageBorder" *ngIf="imagePreview">
+                <img width="270px" height="300px" [src]="imagePreview">
+              </div>
+
+              <div class="form-group textAlignCenter imageBorder" *ngIf="!imagePreview && bookDto.cover">
+                <img width="270px" height="300px" src="data:image/png;base64,{{bookDto.cover}}">
+              </div>
+
+              <div class="alert alert-danger" *ngIf="errorImage">{{errorImage}}</div>
+              <div class="alert alert-success" *ngIf="okImageAdd">La imagen se ha guardado correctamente</div>
+
+              <div class="form-group textAlignCenter">
+                <button [disabled]="loadingImage ||!bookSaved" (click)="uploadImage()" class="btn btn-primary">Editar Imagen</button>
+              </div>
+
+            </form>
+
           </div>
-          <div class="col-md-3 textAlignCenter">
-            <button type="submit" [disabled]="loadingBook" class="btn btn-primary btn-block">Guardar Libro</button>
+        </div>
+
+      </div> <!-- Fin de la columna -->
+
+      <div class="col-md-7">
+
+        <div class="row">
+          <div class="col-md-12">
+
+            <form (ngSubmit)="saveBook(bookForm)" #bookForm="ngForm">
+
+              <!-- la version y el id estaran presentes cuando el book se este editando y no creando -->
+              <input *ngIf="bookDto.id" type="hidden" name="id" [(ngModel)]="bookDto.id" #id="ngModel">
+              <input *ngIf="bookDto.version" type="hidden" name="version" [(ngModel)]="bookDto.version" #version="ngModel">
+
+              <div class="form-group">
+                <label for="title">Título</label>
+                <input id="title" name="title" class="form-control" type="text" [(ngModel)]="bookDto.title" #title="ngModel" placeholder="Título" required [rangeLength]="[1, 100]"/>
+                <div *ngIf="(title.touched || bookForm.submitted) && title.hasError('required')" class="alert alert-danger">El Título del libro es obligatorio</div>
+                <div *ngIf="(title.touched || bookForm.submitted) && title.hasError('rangeLength')" class="alert alert-danger">El Título del libro debe estar comprendido entre 1 y 100 caracteres</div>
+              </div>
+
+              <div class="form-group">
+                <label for="author">Autor</label>
+                <input id="author" name="author" class="form-control" type="text" [(ngModel)]="bookDto.author" #author="ngModel" placeholder="Autor" required [rangeLength]="[1, 100]"/>
+                <div *ngIf="(author.touched || bookForm.submitted) && author.hasError('required')" class="alert alert-danger">El Autor del libro es obligatorio</div>
+                <div *ngIf="(author.touched || bookForm.submitted) && author.hasError('rangeLength')" class="alert alert-danger">El Autor del libro debe estar comprendido entre 1 y 100 caracteres</div>
+              </div>
+
+              <div class="form-group">
+                <label for="description">Descripción</label>
+                <textarea id="description" name="description" class="form-control" type="text" [(ngModel)]="bookDto.description" #description="ngModel" placeholder="Descripción" required [rangeLength]="[1, 500]"></textarea>
+                <div *ngIf="(description.touched || bookForm.submitted) && description.hasError('required')" class="alert alert-danger">La Descipción del libro es obligatoria</div>
+                <div *ngIf="(description.touched || bookForm.submitted) && description.hasError('rangeLength')" class="alert alert-danger">La Descripción del libro debe estar comprendida entre 1 y 500 caracteres</div>
+              </div>
+
+              <div class="form-group">
+                <label for="bookTypeDto">Género</label>
+                <select id="bookTypeDto" name="bookTypeDto" class="form-control" [(ngModel)]="bookDto.bookTypeDto.id" #bookTypeDto="ngModel" required>
+                  <option [ngValue]="null">Seleccione Género</option>
+                  <option *ngFor="let bt of listBookType" [ngValue]="bt.id">{{bt.description}}</option>
+                </select>
+                <div *ngIf="(bookTypeDto.touched || bookForm.submitted) && bookTypeDto.hasError('required')" class="alert alert-danger">El Género del libro es obligatorio</div>
+              </div>
+
+              <div class="alert alert-danger" *ngIf="errorSaveBook">{{errorSaveBook}}</div>
+              <div class="alert alert-success" *ngIf="bookModified">El Libro se ha guardado correctamente</div>
+
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-md-4 col-md-offset-2 textAlignCenter">
+                    <button type="button" [disabled]="!bookDto || !bookDto.id" (click)="openModal(modalDeleteBook)" class="btn btn-danger btn-block">Eliminar Libro</button>
+                  </div>
+                  <div class="col-md-4 textAlignCenter">
+                    <button type="submit" [disabled]="loadingBook" class="btn btn-primary btn-block">Guardar Libro</button>
+                  </div>
+                </div>
+              </div>
+
+            </form>
+
           </div>
         </div>
-      </div>
 
 
-    </form>
+        <div class="row">
+          <div class="col-md-12">
 
-    <!-- Form para subir imagen -->
-    <form  *ngIf="bookSaved && !deletedBook">
-      <div class="form-group">
-        <label for="portada">Portada</label>
-        <input id="portada" type="file" multiple="false" (change)="previewImage($event)" accept="image/*">
-      </div>
+            <!-- Form para subir ficheros -->
+            <form>
+              <div class="form-group">
+                <label for="bookFile">Ficheros</label>
+                <input id="bookFile" type="file" multiple="false" (change)="uploadBookFile($event)" accept=".pdf, .epub, .mobi, .txt" [disabled]="!bookSaved">
+              </div>
 
-      <div class="form-group textAlignCenter imageBorder" *ngIf="imagePreview">
-        <img width="270px" height="300px" [src]="imagePreview">
-      </div>
+              <div class="row margint10px" *ngFor="let bf of listBookFile">
+                <div class="col-md-9">
+                  <button class="btn btn-default btn-block" (click)="downloadBookFile(bf)">Descargar libro en formato {{bf.format}}</button>
+                </div>
+                <div class="col-md-3">
+                  <button class="btn btn-danger btn-block" (click)="deleteBookFile(bf.id)">Eliminar</button>
+                </div>
+              </div>
+            </form>
 
-      <div class="form-group textAlignCenter imageBorder" *ngIf="!imagePreview && bookDto.cover">
-        <img width="270px" height="300px" src="data:image/png;base64,{{bookDto.cover}}">
-      </div>
-
-      <div class="alert alert-danger" *ngIf="errorImage">{{errorImage}}</div>
-      <div class="alert alert-success" *ngIf="okImageAdd">La imagen se ha guardado correctamente</div>
-
-      <div class="form-group textAlignCenter">
-        <button [disabled]="loadingImage" (click)="uploadImage()" class="btn btn-primary">Editar Imagen</button>
-      </div>
-
-    </form>
-
-    <!-- Form para subir ficheros -->
-    <form  *ngIf="bookSaved && !deletedBook">
-      <div class="form-group">
-        <label for="bookFile">Ficheros</label>
-        <input id="bookFile" type="file" multiple="false" (change)="uploadBookFile($event)" accept=".pdf, .epub, .mobi, .txt">
-      </div>
-
-      <div class="row margint10px" *ngFor="let bf of listBookFile">
-        <div class="col-md-10">
-          <button class="btn btn-default btn-block" (click)="downloadBookFile(bf)">Descargar libro en formato {{bf.format}}</button>
+          </div>
         </div>
-        <div class="col-md-2">
-          <button class="btn btn-danger btn-block" (click)="deleteBookFile(bf.id)">Eliminar</button>
-        </div>
-      </div>
 
+      </div><!-- Fin de la columna -->
 
-    </form>
-
-
+    </div>
 
     <div class="alert alert-success" *ngIf="deletedBook">El Libro se ha eliminado correctamente</div>
 
