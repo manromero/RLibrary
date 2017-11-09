@@ -236,6 +236,17 @@ export class BooksComponent implements OnInit {
           this.bookModified = this.bookSaved;
           if (!this.bookSaved) {
             this.errorSaveBook = 'Se ha producido un error al guardar la seriea';
+          } else {
+            // Actualizamos el listado de libros
+            this.bookService.findAllByTitleAsc().subscribe(
+              data2 => {
+                this.listFullBook = data2;
+                this.filterBooksByIdBookTypeAndTitle();
+              },
+              error => {
+                console.log(error);
+              }
+            );
           }
         },
         error => {
