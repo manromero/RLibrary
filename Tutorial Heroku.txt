@@ -30,6 +30,7 @@ Nota: Modificar el codigo de la siguiente forma. Probar que funciona en local co
 	...
 	"scripts": {
 		...
+		"postinstall": "ng build --pro",
 		"start": "node server.js" 
 	},
 	"engines": {
@@ -39,11 +40,11 @@ Nota: Modificar el codigo de la siguiente forma. Probar que funciona en local co
 	"dependencies": {
 		...
 		"@angular/cli": "1.2.3",
+		"@angular/compiler-cli": "^4.0.0",
 		"express": "^4.16.2",
 		...
 	}
 04 - ng built (se creara una carpeta dist con el codigo compilado)
-05 - quitar del .gitignore dist (no consigo que se cree en servidor con postinstall, así que por lo pronto asi)
-06 - poner el servidor en modo produccion -> heroku config:set NPM_CONFIG_PRODUCTION=true
-07 - La aplicación se sube -> git push heroku master
-08 - Para asegurarse que al menos una instancia de la aplicacion está corriendo -> heroku ps:scale web=1
+05 - poner el servidor en modo produccion -> heroku config:set NPM_CONFIG_PRODUCTION=true
+06 - La aplicación se sube -> git push heroku master
+07 - Para asegurarse que al menos una instancia de la aplicacion está corriendo -> heroku ps:scale web=1
