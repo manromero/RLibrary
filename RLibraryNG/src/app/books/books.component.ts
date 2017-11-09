@@ -177,6 +177,8 @@ export class BooksComponent implements OnInit {
     this.okImageAdd = false;
     // Indica si se ha producido un error al añadir una imagen
     this.errorImage = null;
+    // No habra ninguna imagen en la preview, al pulsar sobre editar
+    this.imagePreview = null;
     // Abre el modal
     this.modalRef = this.modalService.show(templateRef, Object.assign({class: 'modal-lg'}));
   }
@@ -209,6 +211,8 @@ export class BooksComponent implements OnInit {
     this.okImageAdd = false;
     // Indica si se ha producido un error al añadir una imagen
     this.errorImage = null;
+    // No habra ninguna imagen en la preview, al pulsar sobre editar
+    this.imagePreview = null;
   }
 
   /**
