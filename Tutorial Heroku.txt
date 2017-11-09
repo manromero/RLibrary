@@ -1,0 +1,49 @@
+JAVA
+01 - Crear una cuenta
+02 - Descargar cli
+03 - Meter el cogido en formato git. Por ejemplo un proyecto en java desde gitHub
+04 - Para crear una aplicación desde CMD -> heroku create NOMBRE_APP
+05 - La aplicación se sube -> git push heroku master
+06 - Para asegurarse que al menos una instancia de la aplicacion está corriendo -> heroku ps:scale web=1
+07 - Se puede añadir base de datos postgres con postgres-heroku como addons
+08 - Si la app es java Spring boot habria que configurar spring.datasource.url = ${JDBC_DATABASE_URL:}
+09 - Para acceder bbdd desde terminal -> heroku pg:psql
+
+ANGULAR2
+
+Nota: Modificar el codigo de la siguiente forma. Probar que funciona en local con node server.js antes de subir
+
+01 - npm install --save express
+02 - crear server.js en la raiz
+
+		// server.js
+		const express = require('express');
+		const app = express();
+		// Run the app by serving the static files
+		// in the dist directory
+		app.use(express.static(__dirname + '/dist'));
+		// Start the app by listening on the default
+		// Heroku port
+		app.listen(process.env.PORT || 3000);
+		
+03 - configurar package.json Añadir esto al proyecto angular 2
+	...
+	"scripts": {
+		...
+		"start": "node server.js" 
+	},
+	"engines": {
+		"node": "6.11.1",
+		"npm": "3.10.9"
+	},
+	"dependencies": {
+		...
+		"@angular/cli": "1.2.3",
+		"express": "^4.16.2",
+		...
+	}
+04 - ng built (se creara una carpeta dist con el codigo compilado)
+05 - quitar del .gitignore dist (no consigo que se cree en servidor con postinstall, así que por lo pronto asi)
+06 - poner el servidor en modo produccion -> heroku config:set NPM_CONFIG_PRODUCTION=true
+07 - La aplicación se sube -> git push heroku master
+08 - Para asegurarse que al menos una instancia de la aplicacion está corriendo -> heroku ps:scale web=1
